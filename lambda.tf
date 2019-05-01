@@ -3,11 +3,9 @@ provider "aws" {
 }
 
 resource "aws_lambda_function" "example" {
-  function_name = "ServerlessExample"
-
   # The bucket name as created earlier with "aws s3api create-bucket"
-  s3_bucket = "terraform-serverless-example"
-  s3_key    = "v1.0.0/example.zip"
+  s3_bucket = "steve-wood-wwww-bucket"
+  s3_key    = "v1.0.0/node.zip"
 
   handler = "main.handler"
   runtime = "nodejs6.10"
