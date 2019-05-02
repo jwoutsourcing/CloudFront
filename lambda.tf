@@ -1,11 +1,8 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
-resource "aws_lambda_function" "example" {
+resource "aws_lambda_function" "insert-mysql" {
   # The bucket name as created earlier with "aws s3api create-bucket"
-  s3_bucket = "steve-wood-wwww-bucket"
-  s3_key    = "v1.0.0/node.zip"
+  function_name = "insert-mysql"
+  s3_bucket     = "steve-wood-wwww-bucket"
+  s3_key        = "v1.0.0/node.zip"
 
   handler = "main.handler"
   runtime = "nodejs6.10"
@@ -14,7 +11,7 @@ resource "aws_lambda_function" "example" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_example_lambda"
+  name = "lambda-exec"
 
   assume_role_policy = <<EOF
 {
