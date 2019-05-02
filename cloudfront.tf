@@ -7,11 +7,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
 
     member {
-      origin_id = "primaryS3"
+      origin_id = "steve-wood-www-s3-1"
     }
 
     member {
-      origin_id = "failoverS3"
+      origin_id = "steve-wood-www-s3-2"
     }
   }
 
