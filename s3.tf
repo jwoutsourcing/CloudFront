@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "steve-w-www_distribution" {
   count  = "${length(var.s3bucket-name)}"
-  bucket = "steve-w-www-bucket"
+  bucket = "${var.s3bucket-name[count.index]}"
   acl    = "public-read"
 
   policy = <<POLICY
