@@ -17,7 +17,7 @@ resource "aws_rds_cluster" "mysql-cluster" {
 }
 
 resource "aws_rds_cluster_endpoint" "eligible" {
-  cluster_identifier          = "${aws_rds_cluster.default.id}"
+  cluster_identifier          = "${aws_rds_cluster.mysql-cluster.id}"
   cluster_endpoint_identifier = "any"
   custom_endpoint_type        = "ANY"
   count                       = "${length(split(",", lookup(var.azs, var.provider["region"])))}"
@@ -26,6 +26,19 @@ resource "aws_rds_cluster_endpoint" "eligible" {
     "aurora-cluster-mysql-${count.index}",
   ]
 }
+
+resource "aws_subnet" "priv-net" {
+  vpc_id            = "${aws_vpc.test-net.id}"
+  count             = "${length(split(",", lookup(var.azs, var.provider["region"])))}"
+  cidr_block        = "${cidrsubnet(var.vpc["cidr_block"], var.vpc["subnet_bits"], count.index)}"
+  availability_zone = "${element(split(",", lookup(var.azs, var.provider["region"])), count.index)}"
+
+  tags {
+    name      = "Private-sub-net"
+    buildwith = "Terraform"
+  }
+}
+
 
 resource "aws_security_group" "rds" {
   name   = "terraform_rds_security_group"
